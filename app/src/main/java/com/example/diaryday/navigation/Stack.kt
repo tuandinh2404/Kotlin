@@ -5,6 +5,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.diaryday.Components.MainScreen.CenterScreen
 import com.example.diaryday.Components.OpenningScreen.LoginScreen
 import com.example.diaryday.Components.OpenningScreen.OpenningScreen
 import com.example.diaryday.Components.OpenningScreen.RegisterScreen
@@ -12,7 +13,7 @@ import com.example.diaryday.Components.OpenningScreen.RegisterScreen
 fun Stack(navController: NavHostController) {
     NavHost(
         navController =  navController,
-        startDestination = "SplashScreen"
+        startDestination = "CenterScreen"
     ) {
         composable("SplashScreen") {
             OpenningScreen(navController)
@@ -22,6 +23,9 @@ fun Stack(navController: NavHostController) {
         }
         composable("LoginScreen") {
             LoginScreen(navController)
+        }
+        composable("CenterScreen") {
+            CenterScreen(navController)
         }
 
 

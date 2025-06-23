@@ -11,7 +11,7 @@ object TokenManager {
     private const val UID_KEY="uid"
 
     private fun getPrefs(context:Context): SharedPreferences {
-        return.context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }
 
     fun saveAccessToken(context: Context, token: String) {
@@ -22,7 +22,7 @@ object TokenManager {
     }
 
     fun saveRefreshToken(context: Context,token: String) {
-        getPrefs(context).edit().getString(REFRESH_TOKEN_KEY, token).apply()
+        getPrefs(context).edit().putString(REFRESH_TOKEN_KEY, token).apply()
     }
     fun getRefreshToken(context: Context): String? {
         return getPrefs(context).getString(REFRESH_TOKEN_KEY, null)

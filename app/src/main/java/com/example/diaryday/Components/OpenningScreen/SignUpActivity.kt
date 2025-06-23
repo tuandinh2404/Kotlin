@@ -12,20 +12,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.diaryday.R
-import com.example.diaryday.ui.theme.Black
-import com.example.diaryday.ui.theme.Red
-import com.example.diaryday.ui.theme.Pink
+
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import com.example.diaryday.ui.theme.Blue
+import com.example.diaryday.ui.theme.Yellow
 
 
 @Composable
 @Preview( showBackground = true)
 fun RegisterScreenPreview() {
+
     MaterialTheme {
         RegisterScreen(navController = rememberNavController())
     }
@@ -36,11 +42,12 @@ fun RegisterScreen(
     navController: NavController,
 )
 {
+    var text by remember { mutableStateOf("") }
 
     Box (
     modifier = Modifier
         .fillMaxSize()
-        .background(Pink)
+        .background(Color.Black)
 
     ) {
         Column(
@@ -58,20 +65,11 @@ fun RegisterScreen(
                     .height(300.dp)
             )
 
-            Card(
-                modifier = Modifier
-                    .width(350.dp)
-                    .height(100.dp),
-                shape = RoundedCornerShape(30.dp),
 
-
-
-            )
-            {
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .background(Red),
+                        .width(200.dp)
+                    ,
                     contentAlignment = Alignment.Center
 
                 )
@@ -83,7 +81,43 @@ fun RegisterScreen(
                         textAlign = TextAlign.Center
                     )
                 }
-            }
+
+            Spacer(
+                modifier = Modifier
+                    .height(50.dp)
+            )
+            @OptIn(ExperimentalMaterial3Api::class)
+                    TextField(
+                        value = text,
+                        onValueChange = {text = it},
+                        placeholder = {Text("Nhập email của bạn")},
+                        shape = RoundedCornerShape(25.dp),
+                        colors = TextFieldDefaults.textFieldColors(
+                            unfocusedIndicatorColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent
+                        ),
+                        modifier = Modifier
+                            .width(400.dp)
+
+                    )
+
+            Spacer(
+                modifier = Modifier.height(250.dp)
+            )
+                Button(
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+                    modifier = Modifier
+                    .width(400.dp)
+                    .height(70.dp)
+                )
+                {
+                    Text(
+                        text="Tiếp theo",
+                        fontSize = 30.sp,
+                    )
+                    
+                }
 
         }
     }
