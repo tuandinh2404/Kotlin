@@ -1,9 +1,5 @@
 package com.example.diaryday.Components.OpenningScreen
 
-
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,33 +12,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-
-
-class OpenningActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            OpenningScreenn()
-        }
-    }
-}
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 
 
 @Preview(showBackground = true)
 @Composable
-fun OpenningScreennPreview() {
+fun OpenningScreenPreview() {
     MaterialTheme {
-        OpenningScreenn()
+        OpenningScreen(navController = rememberNavController())
     }
+
 }
 
 @Composable
-fun OpenningScreenn() {
+fun OpenningScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFE6521F))  // #E6521F
+            .background(Color(0xFF7C432F))  // #E6521F
     ) {
         Column(
             modifier = Modifier
@@ -50,11 +39,12 @@ fun OpenningScreenn() {
                 .padding(horizontal = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(300.dp))
+            Spacer(modifier = Modifier
+                .height(300.dp))
 
             Card(
                 colors = CardDefaults.cardColors(containerColor = Color(0xFFFCEF91)), // #FCEF91
-                shape = RoundedCornerShape(26.dp),
+                shape = RoundedCornerShape(30.dp),
                 modifier = Modifier
                     .wrapContentWidth()
                     .height(100.dp)
@@ -74,10 +64,11 @@ fun OpenningScreenn() {
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier
+                .weight(1f))
 
             Button(
-                onClick = { /* TODO: Chuyển màn SignUp */ },
+                onClick = {navController.navigate("RegisterScreen")},
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE5989B)), // #E5989B
                 shape = RoundedCornerShape(15.dp),
                 modifier = Modifier
@@ -93,9 +84,9 @@ fun OpenningScreenn() {
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = { /* TODO: Chuyển màn Login */ },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0000FF)), // #0000FF
-                shape = RoundedCornerShape(15.dp),
+                onClick = {navController.navigate("LoginScreen")},
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF0000FF)),
+                shape = RoundedCornerShape(20.dp),
                 modifier = Modifier
                     .width(250.dp)
                     .height(60.dp)
@@ -107,7 +98,7 @@ fun OpenningScreenn() {
                 )
             }
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(100.dp))
         }
     }
 }

@@ -60,7 +60,7 @@ val LocalAppColors = staticCompositionLocalOf {
     )
 }
 
-val extenđeColors = AppColors(
+val extendeColors = AppColors(
     background = Color.White,
     onBackground = Black,
     surface = Color.White,
