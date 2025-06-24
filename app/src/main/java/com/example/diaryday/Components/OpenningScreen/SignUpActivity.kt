@@ -1,5 +1,11 @@
 package com.example.diaryday.Components.OpenningScreen
 
+import android.widget.Space
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +35,7 @@ import com.example.diaryday.ui.theme.Yellow
 
 
 @Composable
-@Preview( showBackground = true)
+@Preview(showBackground = true)
 fun RegisterScreenPreview() {
 
     MaterialTheme {
@@ -40,85 +46,166 @@ fun RegisterScreenPreview() {
 @Composable
 fun RegisterScreen(
     navController: NavController,
-)
-{
-    var text by remember { mutableStateOf("") }
+) {
+    var step by remember { mutableStateOf(1) }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
 
-    Box (
-    modifier = Modifier
-        .fillMaxSize()
-        .background(Color.Black)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black)
+
 
     ) {
         Column(
             modifier = Modifier
                 .padding(horizontal = 16.dp)
-                .fillMaxSize()
-
-            ,
+                .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
+
+            )
+        {
+
+            Spacer(
+                modifier = Modifier
+                    .weight(1f)
+            )
+            //Nhập email đây
+            Crossfade(targetState = step, animationSpec = tween(1000)) { step ->
+                when (step) {
+                    1 -> CreateEmailAccout(
+                        text = email,
+                        onValueChange = { email = it },
+                    )
+                    //Nhập Password
+                    2 -> CreatePasswordAccout (
+                        text = password,
+                        onValueChange = { password = it }
+                    )
+
+                }
+            }
+
+            Spacer(
+                modifier = Modifier.weight(1f)
+            )
+
+            Button(
+                onClick = {
+                    if (step < 2) {
+                        step++
+                    } else {
+                        // Đến màn tiếp theo hoặc xử lý đăng ký
+                        // navController.navigate("NextScreen")
+                    }
+                },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+                modifier = Modifier
+                    .imePadding()
+                    .width(400.dp)
+                    .height(70.dp)
+
+            )
+            {
+                Text(
+                    text = "Tiếp theo",
+                    fontSize = 30.sp,
+                    color = Color.Black
+                )
+
+            }
+            Spacer(
+                modifier = Modifier
+                    .padding(bottom = 30.dp)
+            )
+        }
+
+
+    }
+}
+
+@Composable
+fun CreateEmailAccout(
+    text: String,
+    onValueChange: (String) -> Unit
+) {
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+            ,
+            contentAlignment = Alignment.Center
 
         )
         {
-            Spacer(
-                modifier = Modifier
-                    .height(300.dp)
+            Text(
+                text = ("Email của bạn"),
+                color = Color.White,
+                fontSize = 30.sp,
+                textAlign = TextAlign.Center
             )
-
-
-                Box(
-                    modifier = Modifier
-                        .width(200.dp)
-                    ,
-                    contentAlignment = Alignment.Center
-
-                )
-                {
-                    Text(
-                        text = ("Email của bạn"),
-                        color = Color.White,
-                        fontSize = 30.sp,
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-            Spacer(
-                modifier = Modifier
-                    .height(50.dp)
-            )
-            @OptIn(ExperimentalMaterial3Api::class)
-                    TextField(
-                        value = text,
-                        onValueChange = {text = it},
-                        placeholder = {Text("Nhập email của bạn")},
-                        shape = RoundedCornerShape(25.dp),
-                        colors = TextFieldDefaults.textFieldColors(
-                            unfocusedIndicatorColor = Color.Transparent,
-                            focusedIndicatorColor = Color.Transparent
-                        ),
-                        modifier = Modifier
-                            .width(400.dp)
-
-                    )
-
-            Spacer(
-                modifier = Modifier.height(250.dp)
-            )
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
-                    modifier = Modifier
-                    .width(400.dp)
-                    .height(70.dp)
-                )
-                {
-                    Text(
-                        text="Tiếp theo",
-                        fontSize = 30.sp,
-                    )
-                    
-                }
-
         }
+
+        Spacer(
+            modifier = Modifier
+                .height(50.dp)
+        )
+        @OptIn(ExperimentalMaterial3Api::class)
+        TextField(
+            value = text,
+            onValueChange = { onValueChange(it) },
+            placeholder = { Text("Nhập email của bạn") },
+            shape = RoundedCornerShape(25.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .width(400.dp)
+
+        )
+    }
+}
+
+@Composable
+fun CreatePasswordAccout(
+    text: String,
+    onValueChange: (String) -> Unit
+    ) {
+    Column {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth(),
+            contentAlignment = Alignment.Center
+
+        )
+        {
+            Text(
+                text = ("Mật khẩu của bạn"),
+                color = Color.White,
+                fontSize = 30.sp,
+                textAlign = TextAlign.Center
+            )
+        }
+
+        Spacer(
+            modifier = Modifier
+                .height(50.dp)
+        )
+        @OptIn(ExperimentalMaterial3Api::class)
+        TextField(
+            value = text,
+            onValueChange = { onValueChange(it) },
+            placeholder = { Text("Nhập mật khẩu của bạn") },
+            shape = RoundedCornerShape(25.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .width(400.dp)
+
+        )
     }
 }

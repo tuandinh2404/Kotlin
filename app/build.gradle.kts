@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.compose.constraint.layout)
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("com.google.accompanist:accompanist-pager:0.34.0")  // Hoặc bản mới nhất
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

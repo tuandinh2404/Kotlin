@@ -13,7 +13,7 @@ import com.example.diaryday.Components.OpenningScreen.RegisterScreen
 fun Stack(navController: NavHostController) {
     NavHost(
         navController =  navController,
-        startDestination = "CenterScreen"
+        startDestination = "SplashScreen"
     ) {
         composable("SplashScreen") {
             OpenningScreen(navController)
