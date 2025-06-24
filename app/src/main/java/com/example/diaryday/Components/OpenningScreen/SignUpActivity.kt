@@ -3,10 +3,14 @@ package com.example.diaryday.Components.OpenningScreen
 import android.widget.Space
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.*
@@ -18,7 +22,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.diaryday.R
-
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
@@ -32,6 +35,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import com.example.diaryday.ui.theme.Blue
 import com.example.diaryday.ui.theme.Yellow
+
 
 
 @Composable
@@ -51,6 +55,11 @@ fun RegisterScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
+    val interactionSource = remember { MutableInteractionSource() }
+    val presend by interactionSource.collectIsPressedAsState()
+    val width by animateDpAsState(targetValue =  if (presend) 365.dp else 370.dp)
+    val height by animateDpAsState(targetValue =  if (presend) 60.dp else 65.dp)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +69,6 @@ fun RegisterScreen(
     ) {
         Column(
             modifier = Modifier
-                .padding(horizontal = 16.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
 
@@ -74,12 +82,12 @@ fun RegisterScreen(
             //Nhập email đây
             Crossfade(targetState = step, animationSpec = tween(1000)) { step ->
                 when (step) {
-                    1 -> CreateEmailAccout(
+                    1 -> CreateEmailAccount(
                         text = email,
                         onValueChange = { email = it },
                     )
                     //Nhập Password
-                    2 -> CreatePasswordAccout (
+                    2 -> CreatePasswordAccount(
                         text = password,
                         onValueChange = { password = it }
                     )
@@ -90,43 +98,56 @@ fun RegisterScreen(
             Spacer(
                 modifier = Modifier.weight(1f)
             )
-
-            Button(
-                onClick = {
-                    if (step < 2) {
-                        step++
-                    } else {
-                        // Đến màn tiếp theo hoặc xử lý đăng ký
-                        // navController.navigate("NextScreen")
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+            Box(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .imePadding()
-                    .width(400.dp)
-                    .height(70.dp)
-
+                    .height(200.dp)
+                    .padding(bottom = 36.dp)
+                ,
+                contentAlignment = Alignment.Center
             )
             {
-                Text(
-                    text = "Tiếp theo",
-                    fontSize = 30.sp,
-                    color = Color.Black
+
+                Button(
+                    onClick = {
+                        if (step < 2) {
+                            step++
+                        } else {
+                            // Đến màn tiếp theo hoặc xử lý đăng ký
+                            // navController.navigate("NextScreen")
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Yellow),
+                    interactionSource = interactionSource,
+                    modifier = Modifier
+                        .width(width)
+                        .height(height)
+                        .border(
+                            width = 2.dp,
+                            color = Color.Yellow,
+                            shape = RoundedCornerShape(60.dp)
+                        )
+
                 )
-
+                {
+                    Text(
+                        text = "Tiếp theo",
+                        fontSize = 30.sp,
+                        color = Color.Black
+                    )
+                }
+                Spacer(
+                    modifier = Modifier
+                        .padding(bottom = 30.dp)
+                )
             }
-            Spacer(
-                modifier = Modifier
-                    .padding(bottom = 30.dp)
-            )
         }
-
-
     }
 }
 
 @Composable
-fun CreateEmailAccout(
+fun CreateEmailAccount(
     text: String,
     onValueChange: (String) -> Unit
 ) {
@@ -169,7 +190,7 @@ fun CreateEmailAccout(
 }
 
 @Composable
-fun CreatePasswordAccout(
+fun CreatePasswordAccount(
     text: String,
     onValueChange: (String) -> Unit
     ) {
@@ -209,3 +230,4 @@ fun CreatePasswordAccout(
         )
     }
 }
+
